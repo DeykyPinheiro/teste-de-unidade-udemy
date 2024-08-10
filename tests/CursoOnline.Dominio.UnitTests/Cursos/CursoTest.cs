@@ -1,4 +1,5 @@
-﻿using CursoOnline.Dominio.UnitTests._Utils;
+﻿using CursoOnline.Dominio.UnitTests._Builders;
+using CursoOnline.Dominio.UnitTests._Utils;
 using ExpectedObjects;
 using Microsoft.VisualStudio.TestPlatform.Common.Telemetry;
 using System;
@@ -17,11 +18,13 @@ namespace CursoOnline.Dominio.UnitTests.Cursos
         //criar curso com: nome, carga horaria, publico alvo, valor do curso
         //publico alvo: Estudante, Universitario, Empregado, Empreendedor
         //todos os campos são obrigatorios
+        //curso deve ter uma descricao
 
         private readonly string _nome;
         private readonly double _cargaHoraria;
         private readonly PublicoAlvo _publicoAlvo;
         private readonly double _valorCurso;
+        private readonly string _descricao;
 
 
         public CursoTest()
@@ -30,6 +33,7 @@ namespace CursoOnline.Dominio.UnitTests.Cursos
             _cargaHoraria = 80;
             _publicoAlvo = PublicoAlvo.Estudante;
             _valorCurso = 349.50;
+            _descricao = "descricao generica";
 
         }
 
@@ -51,10 +55,11 @@ namespace CursoOnline.Dominio.UnitTests.Cursos
                 Nome = _nome,
                 CargaHoraria = _cargaHoraria,
                 PublicoAlvo = _publicoAlvo,
-                ValorCurso = _valorCurso
+                ValorCurso = _valorCurso,
+                Descricao = _descricao
             };
 
-            Curso curso = new Curso(cursoEsperado.Nome, cursoEsperado.CargaHoraria,
+            Curso curso = new Curso(cursoEsperado.Nome, cursoEsperado.Descricao, cursoEsperado.CargaHoraria,
                 cursoEsperado.PublicoAlvo, cursoEsperado.ValorCurso);
 
             //Objeto esperado
@@ -71,8 +76,8 @@ namespace CursoOnline.Dominio.UnitTests.Cursos
 
 
             Assert.Throws<ArgumentException>(() =>
-            new Curso(nomeInvalido, _cargaHoraria,
-            _publicoAlvo, _valorCurso)).ComMensagem("Nome invalido.");
+                CursoBuilder.Novo().ComNome(nomeInvalido).Build())
+            .ComMensagem("Nome invalido.");
 
         }
 
@@ -86,8 +91,8 @@ namespace CursoOnline.Dominio.UnitTests.Cursos
         {
 
             Assert.Throws<ArgumentException>(() =>
-            new Curso(_nome, CargaHorariaInvalida,
-            _publicoAlvo, _valorCurso)).ComMensagem("Carga horaria invalida.");
+                    CursoBuilder.Novo().ComCargaHoraria(CargaHorariaInvalida).Build()
+            ).ComMensagem("Carga horaria invalida.");
 
         }
 
@@ -100,10 +105,24 @@ namespace CursoOnline.Dominio.UnitTests.Cursos
         {
 
             Assert.Throws<ArgumentException>(() =>
-            new Curso(_nome, _cargaHoraria,
-            _publicoAlvo, ValorCursoInvalido)).ComMensagem("Valor invalido.");
+                CursoBuilder.Novo().ComValorCurso(ValorCursoInvalido).Build()
+            ).ComMensagem("Valor invalido.");
 
         }
+
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        public void NaoDeveCursoTerDescricaoInvalid1(string DescicaoInvalida)
+        {
+
+            Assert.Throws<ArgumentException>(() =>
+                CursoBuilder.Novo().ComDescricao(DescicaoInvalida).Build())
+            .ComMensagem("Descicao invalida.");
+
+        }
+
 
 
 

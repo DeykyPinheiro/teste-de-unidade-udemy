@@ -15,6 +15,21 @@ namespace CursoOnline.Dominio.UnitTests.Cursos
 
         public Curso(string nome, double cargaHoraria, PublicoAlvo publicoAlvo, double valorCurso)
         {
+            if (string.IsNullOrEmpty(nome))
+            {
+                throw new ArgumentException("Nome invalido.");
+            }
+
+            if (cargaHoraria < 1)
+            {
+                throw new ArgumentException("Carga horaria invalida.");
+            }
+
+            if (valorCurso < 1)
+            {
+                throw new ArgumentException("Valor invalido.");
+            }
+
             Nome = nome;
             CargaHoraria = cargaHoraria;
             PublicoAlvo = publicoAlvo;

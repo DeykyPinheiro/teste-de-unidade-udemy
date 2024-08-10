@@ -40,17 +40,6 @@ namespace CursoOnline.Dominio.UnitTests.Cursos
             
             _valorCurso = faker.Random.Double(100, 1000);
             _descricao = faker.Lorem.Paragraph();
-
-
-
-        }
-
-        public enum PublicoAlvo
-        {
-            Estudante,
-            Universitario,
-            Empregado,
-            Empreendedor
         }
 
 
@@ -130,11 +119,5 @@ namespace CursoOnline.Dominio.UnitTests.Cursos
             .ComMensagem("Descicao invalida.");
 
         }
-
-
-
-
-
-
     }
 }

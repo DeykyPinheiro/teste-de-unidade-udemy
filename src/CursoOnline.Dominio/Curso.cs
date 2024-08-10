@@ -1,6 +1,5 @@
-﻿using static CursoOnline.Dominio.UnitTests.Cursos.CursoTest;
-
-namespace CursoOnline.Dominio.UnitTests.Cursos
+﻿
+namespace CursoOnline.Dominio
 {
     public class Curso
     {
@@ -35,10 +34,6 @@ namespace CursoOnline.Dominio.UnitTests.Cursos
             {
                 throw new ArgumentException("Descicao invalida.");
             }
-
-
-
-
 
             Nome = nome;
             CargaHoraria = cargaHoraria;

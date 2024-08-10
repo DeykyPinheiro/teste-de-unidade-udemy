@@ -1,4 +1,5 @@
-﻿using CursoOnline.Dominio.UnitTests._Builders;
+﻿using Bogus;
+using CursoOnline.Dominio.UnitTests._Builders;
 using CursoOnline.Dominio.UnitTests._Utils;
 using ExpectedObjects;
 using Microsoft.VisualStudio.TestPlatform.Common.Telemetry;
@@ -29,11 +30,18 @@ namespace CursoOnline.Dominio.UnitTests.Cursos
 
         public CursoTest()
         {
-            _nome = "Informativa básica";
-            _cargaHoraria = 80;
+            var faker = new Faker();
+
+            _nome = faker.Company.CompanyName();
+            _cargaHoraria = faker.Random.Int(40, 200);
+
+            _publicoAlvo = faker.PickRandom<PublicoAlvo>();
             _publicoAlvo = PublicoAlvo.Estudante;
-            _valorCurso = 349.50;
-            _descricao = "descricao generica";
+            
+            _valorCurso = faker.Random.Double(100, 1000);
+            _descricao = faker.Lorem.Paragraph();
+
+
 
         }
 

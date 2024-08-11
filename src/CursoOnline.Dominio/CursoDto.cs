@@ -1,5 +1,4 @@
-﻿
-namespace CursoOnline.Dominio.UnitTests.Cursos
+﻿namespace CursoOnline.Dominio
 {
     public class CursoDto
     {

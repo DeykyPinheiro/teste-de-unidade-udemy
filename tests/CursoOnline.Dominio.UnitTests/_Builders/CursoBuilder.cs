@@ -14,7 +14,7 @@ namespace CursoOnline.Dominio.UnitTests._Builders
         private double _cargaHoraria = 80;
         private PublicoAlvo _publicoAlvo = PublicoAlvo.Estudante;
         private double _valorCurso = 350.50;
-        private string _descricao = "";
+        private string _descricao = "Descrição teste";
 
 
         public static CursoBuilder Novo()

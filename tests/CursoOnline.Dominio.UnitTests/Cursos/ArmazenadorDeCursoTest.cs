@@ -1,5 +1,7 @@
 ﻿using Bogus;
 using Bogus.DataSets;
+using CursoOnline.Dominio.UnitTests._Builders;
+using CursoOnline.Dominio.UnitTests._Utils;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -50,27 +52,18 @@ namespace CursoOnline.Dominio.UnitTests.Cursos
                 curso.Descricao == _cursoDto.Descricao
             )));
         }
-    }
 
-    public interface ICursoRepositorio
-    {
-        Curso Adicionar(Curso data);
-    }
-
-    public class ArmazenadorDeCurso
-    {
-        private readonly ICursoRepositorio _cursoRepositorio;
-
-        public ArmazenadorDeCurso(ICursoRepositorio cursoRepositorio)
+        [Fact]
+        public void NaoDeveAdicionarCursoComNomeDeOutroJaExistente()
         {
-            _cursoRepositorio = cursoRepositorio;
+            Curso cursoJaExistente = CursoBuilder.Novo().ComNome(_cursoDto.Nome).Build();
+            _cursoRepositorioMock.Setup(r => r.ObterPeloNome(_cursoDto.Nome)).Returns(cursoJaExistente);
+
+            Assert.Throws<ArgumentException>(() =>
+                _armazenadorDeCurso.Armazenar(_cursoDto))
+            .ComMensagem("Nome do curso já cadastrado.");
         }
 
-        public Curso Armazenar(CursoDto data)
-        {
-            var curso = new Curso(data.Nome, data.Descricao, data.CargaHoraria, data.PublicoAlvo, data.ValorCurso);
-            var cursoAdicionado = _cursoRepositorio.Adicionar(curso);
-            return cursoAdicionado;
-        }
+
     }
 }

@@ -74,7 +74,7 @@ namespace CursoOnline.Dominio.UnitTests.Cursos
 
             Assert.Throws<ArgumentException>(() =>
                 CursoBuilder.Novo().ComNome(nomeInvalido).Build())
-            .ComMensagem("Nome invalido.");
+            .ComMensagem(Resource.NomeInvalido);
 
         }
 
@@ -89,7 +89,7 @@ namespace CursoOnline.Dominio.UnitTests.Cursos
 
             Assert.Throws<ArgumentException>(() =>
                     CursoBuilder.Novo().ComCargaHoraria(CargaHorariaInvalida).Build()
-            ).ComMensagem("Carga horaria invalida.");
+            ).ComMensagem(Resource.CargaHorariaInvalida);
 
         }
 
@@ -103,7 +103,7 @@ namespace CursoOnline.Dominio.UnitTests.Cursos
 
             Assert.Throws<ArgumentException>(() =>
                 CursoBuilder.Novo().ComValorCurso(ValorCursoInvalido).Build()
-            ).ComMensagem("Valor invalido.");
+            ).ComMensagem(Resource.valorCursoInvalido);
 
         }
 
@@ -116,7 +116,7 @@ namespace CursoOnline.Dominio.UnitTests.Cursos
 
             Assert.Throws<ArgumentException>(() =>
                 CursoBuilder.Novo().ComDescricao(DescicaoInvalida).Build())
-            .ComMensagem("Descicao invalida.");
+            .ComMensagem(Resource.DescricaoInvalida);
 
         }
 
@@ -130,7 +130,7 @@ namespace CursoOnline.Dominio.UnitTests.Cursos
 
             Assert.Throws<ArgumentException>(() =>
                curso.AlteraNome(nomeInvalido))
-            .ComMensagem("Nome invalido.");
+            .ComMensagem(Resource.NomeInvalido);
         }
 
         [Fact]

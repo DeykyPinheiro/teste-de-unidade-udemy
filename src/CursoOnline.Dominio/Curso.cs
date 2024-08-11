@@ -17,22 +17,22 @@ namespace CursoOnline.Dominio
         {
             if (string.IsNullOrEmpty(nome))
             {
-                throw new ArgumentException("Nome invalido.");
+                throw new ArgumentException(Resource.NomeInvalido);
             }
 
             if (cargaHoraria < 1)
             {
-                throw new ArgumentException("Carga horaria invalida.");
+                throw new ArgumentException(Resource.CargaHorariaInvalida);
             }
 
             if (valorCurso < 1)
             {
-                throw new ArgumentException("Valor invalido.");
+                throw new ArgumentException(Resource.valorCursoInvalido);
             }
 
             if (string.IsNullOrEmpty(descricao))
             {
-                throw new ArgumentException("Descicao invalida.");
+                throw new ArgumentException(Resource.DescricaoInvalida);
             }
 
             Nome = nome;

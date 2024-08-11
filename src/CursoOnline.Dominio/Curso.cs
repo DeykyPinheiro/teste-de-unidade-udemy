@@ -41,5 +41,15 @@ namespace CursoOnline.Dominio
             ValorCurso = valorCurso;
             Descricao = descricao;
         }
+
+        public void AlteraNome(string nome)
+        {
+            if (string.IsNullOrEmpty(nome))
+            {
+                throw new ArgumentException("Nome invalido.");
+            }
+
+            Nome = nome;
+        }
     }
 }

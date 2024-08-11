@@ -32,12 +32,12 @@ namespace CursoOnline.Dominio.UnitTests.Cursos
         {
             var faker = new Faker();
 
-            _nome = faker.Company.CompanyName();
+            _nome = faker.Commerce.ProductName();
             _cargaHoraria = faker.Random.Int(40, 200);
 
             _publicoAlvo = faker.PickRandom<PublicoAlvo>();
             _publicoAlvo = PublicoAlvo.Estudante;
-            
+
             _valorCurso = faker.Random.Double(100, 1000);
             _descricao = faker.Lorem.Paragraph();
         }
@@ -111,12 +111,37 @@ namespace CursoOnline.Dominio.UnitTests.Cursos
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        public void NaoDeveCursoTerDescricaoInvalid1(string DescicaoInvalida)
+        public void NaoDeveCursoTerDescricaoInvalida(string DescicaoInvalida)
         {
 
             Assert.Throws<ArgumentException>(() =>
                 CursoBuilder.Novo().ComDescricao(DescicaoInvalida).Build())
             .ComMensagem("Descicao invalida.");
+
+        }
+
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        public void NaoDeveAlterarParaNomeInvalido(string nomeInvalido)
+        {
+            Curso curso = CursoBuilder.Novo().Build();
+
+            Assert.Throws<ArgumentException>(() =>
+               curso.AlteraNome(nomeInvalido))
+            .ComMensagem("Nome invalido.");
+        }
+
+        [Fact]
+        public void DeveAlterarParaNome()
+        {
+            var nomeEsperado = _nome;
+            Curso curso = CursoBuilder.Novo().Build();
+
+            curso.AlteraNome(nomeEsperado);
+
+            Assert.Equal(nomeEsperado, curso.Nome);
 
         }
     }

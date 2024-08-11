@@ -58,7 +58,7 @@ namespace CursoOnline.Dominio.UnitTests.Cursos
         [Fact]
         public void NaoDeveAdicionarCursoComNomeDeOutroJaExistente()
         {
-            Curso cursoJaExistente = CursoBuilder.Novo().ComNome(_cursoDto.Nome).Build();
+            Curso cursoJaExistente = CursoBuilder.Novo().ComId(432).ComNome(_cursoDto.Nome).Build();
             _cursoRepositorioMock.Setup(r => r.ObterPeloNome(_cursoDto.Nome)).Returns(cursoJaExistente);
 
             Assert.Throws<ArgumentException>(() =>

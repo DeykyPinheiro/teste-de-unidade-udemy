@@ -7,5 +7,6 @@
         public PublicoAlvo PublicoAlvo { get; set; }
         public double ValorCurso { get; set; }
         public string Descricao { get; set; }
+        public int Id { get; set; }
     }
 }

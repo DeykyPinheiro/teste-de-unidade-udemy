@@ -13,5 +13,6 @@ namespace CursoOnline.Dominio
         public static string valorCursoInvalido = "Valor do curso invalido.";
         public static string DescricaoInvalida = "Descição invalida.";
 
+        public static string CursoJaExiste = "Curso já existe.";
     }
 }

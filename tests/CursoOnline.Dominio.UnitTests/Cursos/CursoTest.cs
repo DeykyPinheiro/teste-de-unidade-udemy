@@ -134,7 +134,7 @@ namespace CursoOnline.Dominio.UnitTests.Cursos
         }
 
         [Fact]
-        public void DeveAlterarParaNome()
+        public void DeveAlterarNome()
         {
             var nomeEsperado = _nome;
             Curso curso = CursoBuilder.Novo().Build();
@@ -144,5 +144,98 @@ namespace CursoOnline.Dominio.UnitTests.Cursos
             Assert.Equal(nomeEsperado, curso.Nome);
 
         }
+
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        public void NaoDeveAlterarParaDescricaoInvalida(string descricaoInvalida)
+        {
+            Curso curso = CursoBuilder.Novo().Build();
+
+            Assert.Throws<ArgumentException>(() =>
+               curso.AlterarDescricao(descricaoInvalida))
+            .ComMensagem(Resource.DescricaoInvalida);
+        }
+
+        [Fact]
+        public void DeveAlterarNomeDescricaoValida()
+        {
+            var descricaoEsperada = _descricao;
+            Curso curso = CursoBuilder.Novo().Build();
+
+            curso.AlterarDescricao(descricaoEsperada);
+
+            Assert.Equal(descricaoEsperada, curso.Descricao);
+        }
+
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        [InlineData(-2)]
+        [InlineData(-100)]
+        public void NaoDeveAlterarCursoParaTerCargaHorariaMenorQue1Hora(double CargaHorariaInvalida)
+        {
+
+            Curso curso = CursoBuilder.Novo().Build();
+
+            Assert.Throws<ArgumentException>(() =>
+               curso.AlterarCargaHoraria(CargaHorariaInvalida))
+            .ComMensagem(Resource.CargaHorariaInvalida);
+
+        }
+
+
+        [Fact]
+        public void DeveAlterarCargaHorariaValidaParaCursoExistente()
+        {
+            var CargaHorariaEsperada = _cargaHoraria;
+            Curso curso = CursoBuilder.Novo().Build();
+
+            curso.AlterarCargaHoraria(CargaHorariaEsperada);
+
+            Assert.Equal(CargaHorariaEsperada, curso.CargaHoraria);
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        [InlineData(-2)]
+        [InlineData(-100)]
+        public void NaoDeveAlterarCursoParaValorMenorQue1(double ValorCursoInvalido)
+        {
+            Curso curso = CursoBuilder.Novo().Build();
+
+            Assert.Throws<ArgumentException>(() =>
+                curso.AlterarValorCurso(ValorCursoInvalido)
+            ).ComMensagem(Resource.valorCursoInvalido);
+
+        }
+
+        [Fact]
+        public void DeveAlterarValorDoCursoValidaParaCursoExistente()
+        {
+            var valorDoCursoEsperado = _valorCurso;
+            Curso curso = CursoBuilder.Novo().Build();
+
+            curso.AlterarValorCurso(valorDoCursoEsperado);
+
+            Assert.Equal(valorDoCursoEsperado, curso.ValorCurso);
+        }
+
+        [Fact]
+        public void DeveAlterarPublicoAlvoParaCursoExistente()
+        {
+            var publicoAlvoEsperado = _publicoAlvo;
+            Curso curso = CursoBuilder.Novo().Build();
+
+            curso.AlterarPulicoAlvo(publicoAlvoEsperado);
+
+            Assert.Equal(publicoAlvoEsperado, curso.PublicoAlvo);
+        }
+
+
+
     }
 }

@@ -18,8 +18,24 @@
             }
 
             var curso = new Curso(data.Nome, data.Descricao, data.CargaHoraria, data.PublicoAlvo, data.ValorCurso);
-            var cursoAdicionado = _cursoRepositorio.Adicionar(curso);
-            return cursoAdicionado;
+
+            if (data.Id > 0)
+            {
+                curso = _cursoRepositorio.ObterPeloId(data.Id);
+                curso.AlteraNome(data.Nome);
+                curso.AlterarDescricao(data.Descricao);
+                curso.AlterarCargaHoraria(data.CargaHoraria);
+                curso.AlterarPulicoAlvo(data.PublicoAlvo);
+                curso.AlterarValorCurso(data.ValorCurso);
+
+            }
+            if (data.Id == 0)
+            {
+                var cursoAdicionado = _cursoRepositorio.Adicionar(curso);
+                return cursoAdicionado;
+            }
+
+            return curso;
         }
     }
 }

@@ -2,6 +2,7 @@
 using Bogus.DataSets;
 using CursoOnline.Dominio.UnitTests._Builders;
 using CursoOnline.Dominio.UnitTests._Utils;
+using ExpectedObjects;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,8 @@ namespace CursoOnline.Dominio.UnitTests.Cursos
             {
                 Nome = faker.Commerce.ProductName(),
                 CargaHoraria = faker.Random.Double(20, 1000),
-                PublicoAlvo = PublicoAlvo.Estudante,
+                //PublicoAlvo = PublicoAlvo.Estudante,
+                PublicoAlvo = faker.PickRandom<PublicoAlvo>(),
                 ValorCurso = faker.Random.Double(20, 1000),
                 Descricao = faker.Lorem.Paragraph()
             };
@@ -62,6 +64,36 @@ namespace CursoOnline.Dominio.UnitTests.Cursos
             Assert.Throws<ArgumentException>(() =>
                 _armazenadorDeCurso.Armazenar(_cursoDto))
             .ComMensagem("Nome do curso já cadastrado.");
+        }
+
+        [Fact]
+        public void DeveAlterarDadosDoCursoJaExistente()
+        {
+            _cursoDto.Id = 123;
+
+            var cursoExistente = CursoBuilder.Novo().Build();
+            _cursoRepositorioMock.Setup(r => r.ObterPeloId(_cursoDto.Id)).Returns(cursoExistente);
+
+            _armazenadorDeCurso.Armazenar(_cursoDto);
+
+            //_cursoDto.ToExpectedObject().ShouldEqual(cursoExistente);
+            Assert.Equal(_cursoDto.Nome, cursoExistente.Nome);
+            Assert.Equal(_cursoDto.Descricao, cursoExistente.Descricao);
+            Assert.Equal(_cursoDto.ValorCurso, cursoExistente.ValorCurso);
+            Assert.Equal(_cursoDto.CargaHoraria, cursoExistente.CargaHoraria);
+        }
+
+        [Fact]
+        public void DeveAlterarDadosDoCursoJaExistenteENuncaChamarAdicioanr()
+        {
+            _cursoDto.Id = 123;
+
+            var cursoExistente = CursoBuilder.Novo().Build();
+            _cursoRepositorioMock.Setup(r => r.ObterPeloId(_cursoDto.Id)).Returns(cursoExistente);
+
+            _armazenadorDeCurso.Armazenar(_cursoDto);
+
+            _cursoRepositorioMock.Verify(r => r.Adicionar(It.IsAny<Curso>()), Times.Never);
         }
 
 

@@ -51,5 +51,43 @@ namespace CursoOnline.Dominio
 
             Nome = nome;
         }
+
+        public void AlterarDescricao(string descricao)
+        {
+            if (string.IsNullOrEmpty(descricao))
+            {
+                throw new ArgumentException(Resource.DescricaoInvalida);
+            }
+            Descricao = descricao;
+
+        }
+
+        public void AlterarCargaHoraria(double cargaHoraria)
+        {
+            if (cargaHoraria < 1)
+            {
+                throw new ArgumentException(Resource.CargaHorariaInvalida);
+            }
+            CargaHoraria = cargaHoraria;
+
+        }
+
+
+
+
+
+        public void AlterarPulicoAlvo(PublicoAlvo publicoAlvo)
+        {
+            PublicoAlvo = publicoAlvo;
+        }
+
+        public void AlterarValorCurso(double valorCurso)
+        {
+            if (valorCurso < 1)
+            {
+                throw new ArgumentException(Resource.valorCursoInvalido);
+            }
+            ValorCurso = valorCurso;
+        }
     }
 }

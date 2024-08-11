@@ -4,5 +4,6 @@
     {
         Curso Adicionar(Curso data);
         Curso ObterPeloNome(string nome);
+        Curso ObterPeloId(int id);
     }
 }

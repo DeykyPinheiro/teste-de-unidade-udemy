@@ -1,4 +1,5 @@
-﻿using Bogus.DataSets;
+﻿using Bogus;
+using Bogus.DataSets;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -10,25 +11,44 @@ namespace CursoOnline.Dominio.UnitTests.Cursos
 {
     public class ArmazenadorDeCursoTest
     {
+
+        private readonly CursoDto _cursoDto;
+
+        private readonly Mock<ICursoRepositorio> _cursoRepositorioMock;
+
+        private readonly ArmazenadorDeCurso _armazenadorDeCurso;
+
+        public ArmazenadorDeCursoTest()
+        {
+            Faker faker = new Faker();
+
+            _cursoDto = new CursoDto
+            {
+                Nome = faker.Commerce.ProductName(),
+                CargaHoraria = faker.Random.Double(20, 1000),
+                PublicoAlvo = PublicoAlvo.Estudante,
+                ValorCurso = faker.Random.Double(20, 1000),
+                Descricao = faker.Lorem.Paragraph()
+            };
+
+            _cursoRepositorioMock = new Mock<ICursoRepositorio>();
+            _armazenadorDeCurso = new ArmazenadorDeCurso(_cursoRepositorioMock.Object);
+        }
+
+
         [Fact]
         public void DeveAdicionarCurso()
         {
-            var cursoDto = new CursoDto
-            {
-                Nome = "Curso A",
-                CargaHoraria = 80,
-                PublicoAlvo = PublicoAlvo.Estudante,
-                ValorCurso = 300.10,
-                Descricao = "descricao"
-            };
+            _armazenadorDeCurso.Armazenar(_cursoDto);
 
-            var cursoRepositorioMock = new Mock<ICursoRepositorio>();
-
-            var armazenadorDeCurso = new ArmazenadorDeCurso(cursoRepositorioMock.Object);
-            armazenadorDeCurso.Armazenar(cursoDto);
-
-            cursoRepositorioMock.Verify(r => r.Adicionar(It.IsAny<Curso>()));
-
+            //cursoRepositorioMock.Verify(r => r.Adicionar(It.IsAny<Curso>()));
+            _cursoRepositorioMock.Verify(r => r.Adicionar(It.Is<Curso>(curso =>
+                curso.Nome == _cursoDto.Nome &&
+                curso.CargaHoraria == _cursoDto.CargaHoraria &&
+                curso.PublicoAlvo == _cursoDto.PublicoAlvo &&
+                curso.ValorCurso == _cursoDto.ValorCurso &&
+                curso.Descricao == _cursoDto.Descricao
+            )));
         }
     }
 
